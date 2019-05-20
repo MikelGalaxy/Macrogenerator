@@ -8,7 +8,7 @@ namespace Macrogenerator
     {
         private MacroLibrary macroLibrary;
         private int currentLevel;
-
+        public static int currentLineOfCode = 0;
         //public void RunTests()
         //{
 
@@ -32,10 +32,15 @@ namespace Macrogenerator
 
 
 
-        private void PrintError(ErrorCode code, int lineOfFile)
+        public static void PrintError(ErrorCode code, int lineOfFile)
         {
-            Console.WriteLine(code);
 
+
+            Console.WriteLine($"ERROR - {code}");
+            if (lineOfFile >= 0)
+            {
+                Console.WriteLine($"In line number {lineOfFile}");
+            }
         }
     }
 }
