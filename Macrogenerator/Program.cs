@@ -6,7 +6,11 @@ namespace Macrogenerator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Macrogenerator starts");
+
+
+
+            //Console.WriteLine($"{args[0]}");
         }
     }
 }
