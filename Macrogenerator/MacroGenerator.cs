@@ -44,17 +44,7 @@ namespace Macrogenerator
                     {
                         InterpretLine(sr.ReadLine());
                         currentLineOfCode++;
-
-
                     }
-
-                    //if (callStarted == true)
-                    //{
-                    //    PrintError(ErrorCode.MacrocallNotFinished, currentLineOfCode);
-                    //}
-
-
-                    //Console.WriteLine();
 
                     //using (StreamWriter sw = new StreamWriter(outputFilepath))
                     //{
@@ -85,7 +75,7 @@ namespace Macrogenerator
                     }
                     else if (line[i] == '&')
                     {
-                        i = VerifyAndAddMacro(line.Substring(i + 1));
+                        i += VerifyAndAddMacro(line.Substring(i + 1))+1;
                     }
                     else
                     {
@@ -181,13 +171,15 @@ namespace Macrogenerator
                     };
 
                     macroLibrary.AddMacro(nMacro);
+                    break;
+
                 }
                 else if (macroBodyStarted == true)
                 {
                    tempMacroBody += line[i];               
                 }
             }
-
+            var test = line[i];
             return i;
         }
 
