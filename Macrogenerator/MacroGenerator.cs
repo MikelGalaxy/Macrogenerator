@@ -33,8 +33,9 @@ namespace Macrogenerator
 
         public void ReadFromFile(string filename)
         {
-            string filepath = $"{Environment.CurrentDirectory}\\{filename}";
-            string outputFilepath = $"{Environment.CurrentDirectory}\\output_{filename}";
+            string outputName = $"output_{filename}";
+            string filepath = Path.Combine(Environment.CurrentDirectory,filename);
+            string outputFilepath =  Path.Combine(Environment.CurrentDirectory,outputName);
 
             if (CheckFile(filepath))
             {
@@ -115,7 +116,6 @@ namespace Macrogenerator
         public int VerifyAndAddMacro(string line)
         {
             bool macroBodyStarted = false;
-            bool macroStarted = false;
             string tempMacroName = string.Empty;
             string tempMacroBody = string.Empty;
 
@@ -141,7 +141,6 @@ namespace Macrogenerator
                 {
                     PrintError(ErrorCode.NoNameInMacrocall, currentLineOfCode);
                     macroBodyStarted = false;
-                    macroStarted = false;
                 }
                 else if (line[i] != ' ' && macroBodyStarted == false)
                 {
@@ -154,14 +153,11 @@ namespace Macrogenerator
                 else if (line[i] == ';' && string.IsNullOrEmpty(tempMacroBody))
                 {
                     PrintError(ErrorCode.NoNameInMacrocall, currentLineOfCode);
-                    macroStarted = false;
                     macroBodyStarted = false;
                 }
                 else if (line[i] == ';' && macrosCount == 0 && macroBodyStarted == true)
                 {
-
                     macroBodyStarted = false;
-                    macroStarted = false;
 
                     var nMacro = new Macro
                     {
@@ -179,7 +175,7 @@ namespace Macrogenerator
                    tempMacroBody += line[i];               
                 }
             }
-            var test = line[i];
+
             return i;
         }
 
