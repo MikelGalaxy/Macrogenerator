@@ -11,14 +11,14 @@ namespace Macrogenerator
 
         public void AddMacro(Macro nMacro)
         {
-            if(nMacro==null)
+            if (nMacro==null)
             {
                 MacroGenerator.PrintError(ErrorCode.AddedMacroIsNull, MacroGenerator.currentLineOfCode);
                 return;
             }
 
             // Check if macro with given name and level already exists
-            var lookForMacro = MacrosList.First(m => m.Name.Equals(nMacro.Name) && m.Level.Equals(nMacro.Level));
+            var lookForMacro = MacrosList.FirstOrDefault(m => m.Name.Equals(nMacro.Name) && m.Level.Equals(nMacro.Level));
 
             if(lookForMacro!=null)
             {
@@ -47,7 +47,7 @@ namespace Macrogenerator
 
         public Macro FindMacro(string name, int level = 0)
         {
-            var macro = MacrosList.First(m => m.Name.Equals(name) && m.Level.Equals(level));
+            var macro = MacrosList.OrderBy(n=>n.Level).FirstOrDefault(m => m.Name.Equals(name) && m.Level <= level);
 
             if (macro == null)
             {
@@ -55,6 +55,28 @@ namespace Macrogenerator
             }
 
             return macro;
+        }
+
+        public MacroLibrary()
+        {
+            MacrosList = new List<Macro>();
+
+            var macroTest = new Macro
+            {
+                Name = "A",
+                Level = 0,
+                Body = "$B;aaa"
+            };
+
+            var macroTest2 = new Macro
+            {
+                Name = "B",
+                Level = 0,
+                Body = "bbb"
+            };
+
+            AddMacro(macroTest);
+            AddMacro(macroTest2);
         }
     }
 }
