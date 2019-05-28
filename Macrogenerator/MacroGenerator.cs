@@ -59,7 +59,6 @@ namespace Macrogenerator
             }
         }
 
-
         /// <summary>
         /// Check if line started with // meaning commented line
         /// </summary>
@@ -143,8 +142,11 @@ namespace Macrogenerator
             Console.Write(output);
         }
 
-
-
+        /// <summary>
+        /// Function used when & occur
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         public int VerifyAndAddMacro(string line)
         {
             bool macroBodyStarted = false;

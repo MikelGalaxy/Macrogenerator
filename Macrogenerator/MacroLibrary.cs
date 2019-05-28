@@ -52,7 +52,7 @@ namespace Macrogenerator
 
         public Macro FindMacro(string name, int level = 0)
         {
-            var macro = MacrosList.OrderBy(n=>n.Level).FirstOrDefault(m => m.Name.Equals(name) && m.Level <= level);
+            var macro = MacrosList.OrderByDescending(n=>n.Level).FirstOrDefault(m => m.Name.Equals(name) && m.Level <= level);
 
             if (macro == null)
             {
