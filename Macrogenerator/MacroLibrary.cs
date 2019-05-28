@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace Macrogenerator
@@ -8,6 +7,10 @@ namespace Macrogenerator
     public class MacroLibrary
     {
         public List<Macro> MacrosList { get; set; }
+        public MacroLibrary()
+        {
+            MacrosList = new List<Macro>();
+        }
 
         public void AddMacro(Macro nMacro)
         {
@@ -52,6 +55,7 @@ namespace Macrogenerator
 
         public Macro FindMacro(string name, int level = 0)
         {
+            // find macro with given name and level equal or lower than given then take one
             var macro = MacrosList.OrderByDescending(n=>n.Level).FirstOrDefault(m => m.Name.Equals(name) && m.Level <= level);
 
             if (macro == null)
@@ -60,11 +64,6 @@ namespace Macrogenerator
             }
 
             return macro;
-        }
-
-        public MacroLibrary()
-        {
-            MacrosList = new List<Macro>();
         }
     }
 }

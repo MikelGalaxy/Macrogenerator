@@ -14,8 +14,6 @@ namespace Macrogenerator
 
      */
 
-    // TODO: HELP ADD ALL TESTS
-
     public class MacroGenerator
     {
         private MacroLibrary macroLibrary;
@@ -111,7 +109,7 @@ namespace Macrogenerator
 
                     }
                 }
-                else if (callStarted == true)
+                else if (callStarted == true)   // reading macrocall;
                 {
                     if (line[i] == ';' && string.IsNullOrEmpty(tempCallName))
                     {
@@ -139,7 +137,7 @@ namespace Macrogenerator
             }
 
             WriteToFile(output);
-            Console.Write(output);
+            //Console.Write(output);        //stream that goes to writter
         }
 
         /// <summary>
@@ -265,9 +263,19 @@ namespace Macrogenerator
             }
         }
 
+        // basic information about macrogenerator (after using -h as parameter)
         public void DisplayHelp()
         {
-            Console.WriteLine("HELP");
+            Console.WriteLine("Help");
+            Console.WriteLine("Language syntax:");
+            Console.WriteLine("Special delimiters: &, $, ' ', ;");
+            Console.WriteLine("Macro definitions will begin with a '&' character followed by a space character and closed with ';' character.");
+            Console.WriteLine("Macrocall starts with '$' ending with a ';' character.\n");
+            Console.WriteLine("\tBODY : <CALL> | <DEF>");
+            Console.WriteLine("\tDEF: &<MARCO_NAME>' '<BODY>;\n");
+            Console.WriteLine("\tCALL: $<MACRO_NAME>; No parameters allowed");
+            Console.WriteLine("Lines starting with // are treated by program as comments and therefore neglected\n");
+            Console.WriteLine("Tests can be find in file EOPSY_TESTS.txt");
         }
     }
 }
