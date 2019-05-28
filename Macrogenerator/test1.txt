@@ -1,7 +1,0 @@
-ffr
-&Z &X xx;ff;
-$Z;
-$X;
-
-$A;$B;$C;
-test1234

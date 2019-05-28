@@ -12,8 +12,13 @@ namespace Macrogenerator
         public void AddMacro(Macro nMacro)
         {
             if (nMacro==null)
+            {               
+                return;
+            }
+
+            if(string.IsNullOrEmpty(nMacro.Name) || string.IsNullOrWhiteSpace(nMacro.Body))
             {
-                MacroGenerator.PrintError(ErrorCode.AddedMacroIsNull, MacroGenerator.currentLineOfCode);
+                MacroGenerator.PrintError(ErrorCode.AddedMacroIsEmpty, MacroGenerator.currentLineOfCode);
                 return;
             }
 
@@ -23,7 +28,7 @@ namespace Macrogenerator
             if(lookForMacro!=null)
             {
                 // Print information about overwritting macro
-
+                Console.WriteLine($"\nMacro \"{lookForMacro.Name}\" with level {lookForMacro.Level} has been overwritten");
 
                 // Remove it from list;
                 MacrosList.Remove(lookForMacro);
@@ -60,23 +65,6 @@ namespace Macrogenerator
         public MacroLibrary()
         {
             MacrosList = new List<Macro>();
-
-            var macroTest = new Macro
-            {
-                Name = "A",
-                Level = 0,
-                Body = "$B;aaa"
-            };
-
-            var macroTest2 = new Macro
-            {
-                Name = "B",
-                Level = 0,
-                Body = "bbb"
-            };
-
-            AddMacro(macroTest);
-            AddMacro(macroTest2);
         }
     }
 }

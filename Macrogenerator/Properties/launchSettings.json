@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Macrogenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "test.txt"
+    }
+  }
+}

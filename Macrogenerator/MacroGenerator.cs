@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Macrogenerator
 {
     /*
-      
-     
+          
     Project task no. 11:
     “Write a macrogenerator with no parameters but definitions can be nested. 
     The discriminant of definition is &.
@@ -15,16 +12,17 @@ namespace Macrogenerator
     &CC TEXT - possible definitions of macro &
     Macrocall: $CC“
 
-
      */
 
-    //macroCall in one line
+    // TODO: HELP ADD ALL TESTS
 
     public class MacroGenerator
     {
         private MacroLibrary macroLibrary;
         private int currentLevel = 0;
         public static int currentLineOfCode = 1;
+        string filepath;
+        string outputFilepath;
 
         public MacroGenerator()
         {
@@ -34,30 +32,51 @@ namespace Macrogenerator
         public void ReadFromFile(string filename)
         {
             string outputName = $"output_{filename}";
-            string filepath = Path.Combine(Environment.CurrentDirectory,filename);
-            string outputFilepath =  Path.Combine(Environment.CurrentDirectory,outputName);
+            filepath = Path.Combine(Environment.CurrentDirectory, filename);
+            outputFilepath = Path.Combine(Environment.CurrentDirectory, outputName);
+
+            Console.WriteLine($"Trying to read from {filepath}\n");
 
             if (CheckFile(filepath))
             {
+                // Delete old output file
+                File.Delete(outputFilepath);
+
                 using (StreamReader sr = new StreamReader(filepath))
                 {
                     while (sr.Peek() >= 0)
                     {
-                        InterpretLine(sr.ReadLine());
+                        string line = sr.ReadLine();
+
+                        if (isComment(line) == false)
+                        {
+                            InterpretLine(line);
+                        }
+
                         currentLineOfCode++;
                     }
-
-                    //using (StreamWriter sw = new StreamWriter(outputFilepath))
-                    //{
-                    //    sw.Write(freeTextTemp);
-                    //}
-
-                    //Console.WriteLine(currentLineOfCode);
-
                 }
             }
         }
 
+
+        /// <summary>
+        /// Check if line started with // meaning commented line
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        private bool isComment(string line)
+        {
+            if (line.Length >= 2 && line[0] == '/')
+            {
+                if (line[1] == '/')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public void InterpretLine(string line)
         {
@@ -76,11 +95,21 @@ namespace Macrogenerator
                     }
                     else if (line[i] == '&')
                     {
-                        i += VerifyAndAddMacro(line.Substring(i + 1))+1;
+                        i += VerifyAndAddMacro(line.Substring(i + 1)) + 1;
                     }
                     else
                     {
-                        output += line[i];
+                        if (line[i] == ';')
+                        {
+                            // in that case it isn't treated as free text - line is cleared out;
+                            PrintError(ErrorCode.InvalidSemiCollonPosition, currentLineOfCode);
+                            output = string.Empty;
+                        }
+                        else
+                        {
+                            output += line[i];
+                        }
+
                     }
                 }
                 else if (callStarted == true)
@@ -110,8 +139,11 @@ namespace Macrogenerator
                 PrintError(ErrorCode.MacrocallNotFinished, currentLineOfCode);
             }
 
+            WriteToFile(output);
             Console.Write(output);
         }
+
+
 
         public int VerifyAndAddMacro(string line)
         {
@@ -125,16 +157,17 @@ namespace Macrogenerator
 
             for (; i < line.Length; i++)
             {
-                if(line[i] == '&' || line[i] == '$')
+                if (line[i] == '&' || line[i] == '$')
                 {
                     macrosCount++;
                 }
                 if (line[i] == ';')
                 {
                     macrosCount--;
+
                     if (macrosCount < 0)
                     {
-                        //error
+                        PrintError(ErrorCode.IncorectAmmountOfSemiCollons, currentLineOfCode);
                     }
                 }
                 if (line[i] == ';' && macrosCount == 0 && string.IsNullOrEmpty(tempMacroName))
@@ -172,7 +205,7 @@ namespace Macrogenerator
                 }
                 else if (macroBodyStarted == true)
                 {
-                   tempMacroBody += line[i];               
+                    tempMacroBody += line[i];
                 }
             }
 
@@ -219,10 +252,20 @@ namespace Macrogenerator
             }
         }
 
+        private void WriteToFile(string output)
+        {
+            using (StreamWriter sw = new StreamWriter(outputFilepath, true))
+            {
+                if (!string.IsNullOrWhiteSpace(output))
+                {
+                    sw.Write(output);
+                }
+            }
+        }
 
         public void DisplayHelp()
         {
-
+            Console.WriteLine("HELP");
         }
     }
 }
