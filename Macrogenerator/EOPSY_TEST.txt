@@ -6,11 +6,11 @@ free text test
 $A;
 
 //TEST 3 - lack of macro definition symbol
-B bbbaa;
+B BBBAAA;
 $B;
 
 //TEST 4 - lack of macrocall symbol
-&D aaabbbcc;
+&D dddd;
 D;
 
 //TEST 5 - macrodefintion without a body
@@ -18,34 +18,34 @@ D;
 $C;
 
 //TEST 6 - calling not defined macro
-&Q aa$W;ac;
+&Q qs$W;qe;
 $Q;
 
+
 //TEST 7 - basic nested calling
-&Z abc;
-&X aa$Z;bc;
+&Z zAz;
+&X ax$Z;xb;
 $X;
 
 //TEST 8 - nested definition
-&N &M xx;ff;
+&N &M mm;nn;
 $N;
 $M;
 
 //TEST 9 - simple overwritting defintion
-&A aa;
+&A a1a;
 $A;
 
 //TEST 10 - more complex macro calling defintion
-&M &A 22;mm;
-$M;
+&R &A 2a2;mm;
+$R;
 
 &G $A;gg;
 $G;
 
+
+
 //TEST 11 - comments test
 //coment test
 /invalid comment
-
-
-
 
