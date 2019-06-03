@@ -88,6 +88,8 @@ namespace Macrogenerator
                     if (line[i] == '$')
                     {
                         callStarted = true;
+                        WriteToFile(output);
+                        output = string.Empty;
                         currentLevel++;
                     }
                     else if (line[i] == '&')
