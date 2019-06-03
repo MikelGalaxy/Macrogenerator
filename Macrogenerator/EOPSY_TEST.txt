@@ -21,7 +21,6 @@ $C;
 &Q qs$W;qe;
 $Q;
 
-
 //TEST 7 - basic nested calling
 &Z zAz;
 &X ax$Z;xb;
@@ -42,8 +41,6 @@ $R;
 
 &G $A;gg;
 $G;
-
-
 
 //TEST 11 - comments test
 //coment test

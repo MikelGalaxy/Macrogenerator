@@ -75,7 +75,7 @@ namespace Macrogenerator
             return false;
         }
 
-        public void InterpretLine(string line)
+        private void InterpretLine(string line)
         {
             bool callStarted = false;
             string tempCallName = string.Empty;
@@ -121,7 +121,7 @@ namespace Macrogenerator
                     }
                     else if (line[i] == ';')
                     {
-                        ExecuteMacro(tempCallName, currentLevel);
+                        ExecuteMacrocall(tempCallName, currentLevel);
                         tempCallName = string.Empty;
                         callStarted = false;
                         currentLevel--;
@@ -147,7 +147,7 @@ namespace Macrogenerator
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        public int VerifyAndAddMacro(string line)
+        private int VerifyAndAddMacro(string line)
         {
             bool macroBodyStarted = false;
             string tempMacroName = string.Empty;
@@ -214,7 +214,7 @@ namespace Macrogenerator
             return i;
         }
 
-        public void ExecuteMacro(string macroName, int level)
+        private void ExecuteMacrocall(string macroName, int level)
         {
             var macro = macroLibrary.FindMacro(macroName, level);
             if (macro != null)
